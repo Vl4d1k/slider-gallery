@@ -4,11 +4,11 @@ import loadable, {LoadableComponent} from "@loadable/component";
 
 
 const IndexPage = loadable(() => import('./pages/index'));
-const OtherPage = loadable(() => import('./pages/view-image.jsx'));
+const ViewImage = loadable(() => import('./pages/view-image.jsx'));
 
 export const ROUTES = {
   index: '/',
-  other: '/other-page'
+  viewImage: '/view-image'
 } as const
 
 const renderPage = (Page: LoadableComponent<any>) => (
@@ -21,7 +21,7 @@ const Routes = () => {
   return (
     <Switch location={location}>
       <Route path={ROUTES.index} render={() => renderPage(IndexPage)} exact={true} />
-      <Route path={ROUTES.other} render={() => renderPage(OtherPage)}/>
+      <Route path={`${ROUTES.viewImage}/:id`} render={() => renderPage(ViewImage)}/>
     </Switch>
   )
 }

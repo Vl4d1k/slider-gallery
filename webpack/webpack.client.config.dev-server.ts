@@ -9,7 +9,7 @@ import PATH from "./path";
 
 const config: Configuration = {
     output: {
-        publicPath: ''
+        publicPath: '/',
     },
     devServer: {
         hot: true,

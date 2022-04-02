@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useInstance} from 'react-ioc';
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams, useRouteMatch} from "react-router-dom";
 
 import Store from "@store";
 
@@ -10,6 +10,9 @@ import '../styles/App.scss';
 const ViewImage = () => {
   const { app } = useInstance(Store);
   const location = useLocation();
+  const { id } = useParams()
+
+  console.log(id)
 
   return (
     <div className="App">
