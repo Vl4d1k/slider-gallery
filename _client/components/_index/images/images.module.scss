@@ -1,0 +1,16 @@
+.card {
+
+}
+
+.cardBody {
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.image {
+  display: block;
+  width: 150px;
+  height: 150px;
+  box-shadow: 3px 5px 10px 0 rgba(0, 0, 0, 0.1);
+}
