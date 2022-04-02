@@ -1,6 +1,8 @@
-import React, {memo} from 'react';
+import React, {memo, useState, useEffect} from 'react';
 import {useInstance} from 'react-ioc';
 import {useLocation, useParams, useRouteMatch} from "react-router-dom";
+import { Range, getTrackBackground } from "react-range";
+import api from "@client/api";
 
 import Store from "@store";
 
@@ -14,26 +16,94 @@ const ViewImage = () => {
 
   console.log(id)
 
+  const STEP = 1;
+  const MIN = 0;
+
+  const [MAX, setMaxCount] = useState(100);
+  const [values, setValues] = useState([0]);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    api.get(`images/${id}`).then(res => {
+      setImages(res?.data?.images ?? []);
+      setMaxCount(res?.data?.images?.length ?? 0);
+      setValues([res?.data?.images?.length ?? 0]);
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src="/assets/images/logo192.png" className="App-logo" alt="logo" />
-        <h1>Its OTHER PAGE asdsd ({location.pathname})</h1>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React + {app.counter} + {app.counterV2}
-        </a>
-        <div>
-          <button onClick={app.inc}>+1</button>
-        </div>
-      </header>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        flexWrap: "wrap",
+        margin: "2em"
+      }}
+    >
+      <Range
+        values={values}
+        step={STEP}
+        min={MIN}
+        max={MAX}
+        onChange={(values) => setValues(values)}
+        renderTrack={({ props, children }) => (
+          <div
+            onMouseDown={props.onMouseDown}
+            onTouchStart={props.onTouchStart}
+            style={{
+              ...props.style,
+              height: "36px",
+              display: "flex",
+              width: "100%"
+            }}
+          >
+            <div
+              ref={props.ref}
+              style={{
+                height: "5px",
+                width: "100%",
+                borderRadius: "4px",
+                background: getTrackBackground({
+                  values: values,
+                  colors: ["#548BF4", "#ccc"],
+                  min: MIN,
+                  max: MAX
+                }),
+                alignSelf: "center"
+              }}
+            >
+              {children}
+            </div>
+          </div>
+        )}
+        renderThumb={({ props, isDragged }) => (
+          <div
+            {...props}
+            style={{
+              ...props.style,
+              height: "42px",
+              width: "42px",
+              borderRadius: "4px",
+              backgroundColor: "#FFF",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              boxShadow: "0px 2px 6px #AAA"
+            }}
+          >
+            <div
+              style={{
+                height: "16px",
+                width: "5px",
+                backgroundColor: isDragged ? "#548BF4" : "#CCC"
+              }}
+            />
+          </div>
+        )}
+      />
+      <output style={{ marginTop: "30px" }} id="output">
+        {values[0]}
+      </output>
     </div>
   );
 }
