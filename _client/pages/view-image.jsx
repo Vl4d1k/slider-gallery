@@ -41,6 +41,7 @@ const ViewImage = () => {
         fetch().then().then(count => {
           if (count === MAX) {
             clearInterval(interval)
+            fetchGif()
           }
         })
       }, 5000)
