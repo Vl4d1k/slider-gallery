@@ -1,7 +1,7 @@
 import * as path from 'path';
 import {Configuration} from 'webpack';
 
-import {defaultRootPath, getPath, TWebpackPaths} from "./path";
+import PATH, {defaultRootPath, getPath, TWebpackPaths} from "./path";
 import {getCssRules} from "./rules/css";
 import jsRule from "./rules/js";
 import fontsRule from "./rules/fonts";
@@ -9,6 +9,9 @@ import {IS_DEV} from "./constants";
 import resolve from "./resolve";
 import commonPlugins from "./common-plugins";
 import {getModuleCssRules} from "./rules/cssModules";
+
+// @ts-ignore
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const TerserPlugin = require('terser-webpack-plugin');
 const SensitivePath = require('case-sensitive-paths-webpack-plugin');
@@ -32,7 +35,7 @@ export function getCommonConfig(paths: TWebpackPaths): Configuration {
         output: {
             path: localPaths.buildClient,
             filename: 'js/[hash].[name].js',
-            publicPath: '/assets/client/'
+            publicPath: '/'
         },
         resolve: resolve,
         module: {
@@ -59,6 +62,9 @@ export function getCommonConfig(paths: TWebpackPaths): Configuration {
             ],
         },
         plugins: [
+            new HtmlWebpackPlugin({
+                template: path.resolve(PATH.root, `public/index.html`)
+            }),
             ...(!IS_DEV ? [
                 new MiniCssExtractPlugin({
                     filename: 'css/[name].[contenthash:8].css',
