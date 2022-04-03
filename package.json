@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "prod:build:client": "cross-env NODE_ENV=production webpack --config webpack/webpack.client.config.prod.ts",
-    "dev:start:client": "cross-env NODE_ENV=development webpack-dev-server --config webpack/webpack.client.config.dev-server.ts",
+    "dev:start:client": "cross-env NODE_ENV=development webpack-dev-server --config webpack/webpack.client.config.dev-server.ts"
   },
   "peerDependencies": {},
   "dependencies": {
