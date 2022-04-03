@@ -32,7 +32,7 @@ const ViewImage = () => {
     function fetchGif() {
       return api.get(`gif/${id}`).then((res) => {
 
-        setGifUrl(res?.data)
+        setGifUrl(res?.data.image)
       })
     }
 
