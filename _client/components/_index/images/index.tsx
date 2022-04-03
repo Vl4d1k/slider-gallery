@@ -1,8 +1,7 @@
-import React, {FC, memo, useEffect, useState} from "react";
+import React, {FC, memo} from "react";
 
 import css from './images.module.scss'
 import classNames from "classnames";
-import api from "@client/api";
 import config from "@client/config";
 import {useHistory} from "react-router-dom";
 import {ROUTES} from "@client/router";
@@ -14,24 +13,22 @@ export type TImage = {
 }
 
 export interface IProps {
+  images: TImage[] | null;
+  className?: string
 }
 
 const Images: FC<IProps> = props => {
-  const [images, setImages] = useState<null | Array<TImage>>(null)
+  const { images, className } = props;
   const history = useHistory();
 
-  useEffect(() => {
-    api.get<Array<TImage>>('images/preview').then(res => {
-      setImages(res.data)
-    })
-  }, [])
+
 
   function handleViewImage(id: string) {
     history.push(`${ROUTES.viewImage}/${id}`)
   }
 
   return (
-    <div className={classNames(css.card, 'card w-75 mx-auto mt-5')}>
+    <div className={classNames(css.card, 'card', className)}>
       <div className={classNames(css.cardBody, 'card-body')}>
         {
           images && images.map(({ image, id }, index) => (
@@ -42,6 +39,5 @@ const Images: FC<IProps> = props => {
     </div>
   )
 }
-
 
 export default memo(Images)

@@ -1,14 +1,10 @@
 import React, {memo} from 'react';
-import {useInstance} from 'react-ioc';
-import {useLocation, useParams, useRouteMatch} from "react-router-dom";
-
-import Store from "@store";
+import {useLocation, useParams,} from "react-router-dom";
 
 import '../styles/App.scss';
 
 
 const ViewImage = () => {
-  const { app } = useInstance(Store);
   const location = useLocation();
   const { id } = useParams()
 
@@ -28,10 +24,8 @@ const ViewImage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React + {app.counter} + {app.counterV2}
         </a>
         <div>
-          <button onClick={app.inc}>+1</button>
         </div>
       </header>
     </div>
